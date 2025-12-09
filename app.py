@@ -2,9 +2,9 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, dcc, html
 
-# from pages.landing_option_dash import landing_page
-# from pages.pricer_option_dash import pricer_page
-# from pages.graph_option_dash import graph_page
+from pages.landing import landing_page
+from pages.smile import smile_page
+from pages.surface import surface_page
 
 app = dash.Dash(
     external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True
@@ -37,8 +37,8 @@ sidebar = html.Div(
         dbc.Nav(
             [
                 dbc.NavLink("Home", href="/", active="exact"),
-                dbc.NavLink("Pricer", href="/pricer", active="exact"),
-                dbc.NavLink("Graphs", href="/graphs", active="exact"),
+                dbc.NavLink("Sabr Smile", href="/smile", active="exact"),
+                dbc.NavLink("Surface", href="/surface", active="exact"),
             ],
             vertical=True,
             pills=True,
@@ -56,11 +56,11 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
-        return "This Home page is under construction."
-    elif pathname == "/pricer":
-        return "This Pricer page is under construction."
-    elif pathname == "/graphs":
-        return "This Graphs page is under construction."
+        return landing_page
+    elif pathname == "/smile":
+        return smile_page
+    elif pathname == "/surface":
+        return surface_page
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
         [
